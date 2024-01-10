@@ -2,7 +2,7 @@
   <Manifest>
     <Identity>
       <ID>Microsoft.Windows.Active.Directory.Certificate.Services.2012R2.Monitoring.Addendum</ID>
-      <Version>1.0.0.9</Version>
+      <Version>1.0.1.0</Version>
     </Identity>
     <Name>Microsoft Windows Active Directory Certificate Services 2012R2 Monitoring Addendum</Name>
     <References>
@@ -96,7 +96,7 @@
                 </Scheduler>
               </DataSource>
               <ProbeAction ID="PA" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
-                <ScriptName>Microsoft.Windows.Active.Directory.Certificate.Services.2012R2.OnlineResponderService.EventID7031.Monitor.DS.v1009.ps1</ScriptName>
+                <ScriptName>Microsoft.Windows.Active.Directory.Certificate.Services.2012R2.OnlineResponderService.EventID7031.Monitor.DS.v1010.ps1</ScriptName>
                 <ScriptBody>
 #=================================================================================
 #  Check for 7031 events for OCSP Service errors
@@ -109,7 +109,7 @@
 # Constants section - modify stuff here:
 #=================================================================================
 # Assign script name variable for use in event logging.
-$ScriptName = "Microsoft.Windows.Active.Directory.Certificate.Services.2012R2.OnlineResponderService.EventID7031.Monitor.DS.v1009.ps1"
+$ScriptName = "Microsoft.Windows.Active.Directory.Certificate.Services.2012R2.OnlineResponderService.EventID7031.Monitor.DS.v1010.ps1"
 $EventID = "661"
 #=================================================================================
 
@@ -291,7 +291,7 @@ $momapi.LogScriptEvent($ScriptName,$EventID,0,"Script Completed. `n Script Runti
                 </Scheduler>
               </DataSource>
               <ProbeAction ID="PA" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
-                <ScriptName>Proactive.DailyTasks.ADCS2012R2Alerts.Close.Script.Datasource.v1009.ps1</ScriptName>
+                <ScriptName>Proactive.DailyTasks.ADCS2012R2Alerts.Close.Script.Datasource.v1010.ps1</ScriptName>
                 <ScriptBody>
 #=================================================================================
 #  Script to gather ADCS2012R2 alerts and close via on demand task
@@ -305,7 +305,7 @@ $momapi.LogScriptEvent($ScriptName,$EventID,0,"Script Completed. `n Script Runti
 #=================================================================================
 # Assign script name variable for use in event logging.
 # ScriptName should be the same as the ID of the module that the script is contained in
-$ScriptName = "Proactive.DailyTasks.ADCS2012R2Alerts.Close.Script.Datasource.v1009.ps1"
+$ScriptName = "Proactive.DailyTasks.ADCS2012R2Alerts.Close.Script.Datasource.v1010.ps1"
 $EventID = "550"
 #=================================================================================
 
@@ -511,74 +511,80 @@ if ( $SCOMCoreReportAlerts.Count -gt 0 )
 $momapi.LogScriptEvent($ScriptName,$EventID,0,"Proactive DailyTasks ADCS2012R2 monitor reset completed for ($date)")
 
 
-
 # Unhealthy rules
 #
 # (Rules) Alerts to auto close after reset monitor
 # $SCOMCoreRuleAlerts | Resolve-SCOMAlert
-$SCOMCoreRules.DisplayName | Resolve-SCOMAlert -Comment "Closing daily alert flood after report alert generated - ADCS2012R2 Addendum automation DS"
 
-$ADRulesToClose = @()
-
-$ADRulesToClose +=
-$ADRulesToClose += "A dll cannot be loaded because the software was incorrectly installed"
-$ADRulesToClose += "A DNS server used by this server for name resolution*"
-$ADRulesToClose += "A resource record for the computer name of the DC*"
-$ADRulesToClose += "A RSoP (Resultant Set of Policies) error occurred"
-$ADRulesToClose += "A user from a different forest*"
-$ADRulesToClose += "A well known *"
-$ADRulesToClose += "Account creation will *"
-$ADRulesToClose += "Account Name Not Unique"
-$ADRulesToClose += "Accounts with the same SID*"
-$ADRulesToClose += "Active Directory Web Services *"
-$ADRulesToClose += "ADCS2012*"
-$ADRulesToClose += "AD Database Size Collection"
-$ADRulesToClose += "AD Replication Queue"
-$ADRulesToClose += "An account *"
-$ADRulesToClose += "An attempt to *"
-$ADRulesToClose += "Change Password on KRBTGT Account Failed"
-$ADRulesToClose += "Corrupt Credentials"
-$ADRulesToClose += "Domain Operation Mode has been changed to Native Mode"
-$ADRulesToClose += "Duplicate account names were detected - one account has been renamed"
-$ADRulesToClose += "Duplicate User Principal Names have been detected"
-$ADRulesToClose += "Free Disk Space * Collection"
-$ADRulesToClose += "Global Catalog Search Response Time Collection"
-$ADRulesToClose += "Group policy processing aborted - cannot determine site"
-$ADRulesToClose += "Invalid Forwarded AS Request"
-$ADRulesToClose += "Invalid Policy Data"
-$ADRulesToClose += "Machine account policy failure - *"
-$ADRulesToClose += "Memory Allocation Error - the system may be overloaded"
-$ADRulesToClose += "No input provider to sync time"
-$ADRulesToClose += "One or more of the DC Locator DNS records are not registered in the DNS*"
-$ADRulesToClose += "PAC Verification Failure"
-$ADRulesToClose += "Policy Update Failure"
-$ADRulesToClose += "Setting the administrators password failed.  It has been reset to blank."
-$ADRulesToClose += "The account identifier pool for this domain controller cannot be updated"
-$ADRulesToClose += "The computer did not have sufficient rights to perform the secure dynami*"
-$ADRulesToClose += "The computer name cannot be mapped to an object in Active Directory - *"
-$ADRulesToClose += "The DC was unable to obtain the next account-identifier"
-$ADRulesToClose += "The DNS server with which this DC will register does not support the *"
-$ADRulesToClose += "The domain controller failed to obtain a new account identifier pool"
-$ADRulesToClose += "The group caching option has now been properly updated"
-$ADRulesToClose += "The machine account cannot be found"
-$ADRulesToClose += "The number of Group Policies has exceeded the maximum limit"
-$ADRulesToClose += "The registry policy file could not be accessed during application *"
-$ADRulesToClose += "The system clock has not been synchronized for some time"
-$ADRulesToClose += "This domain controller will not start up because its machine account*"
-$ADRulesToClose += "Trusted Domain List Update Failure"
-$ADRulesToClose += "Unexpected SAM Failure"
-$ADRulesToClose += "Windows cannot determine the *"
-$ADRulesToClose += "Windows cannot obtain the domain controller name for your computer network."
-$ADRulesToClose += "Windows is setting a registry value"
-
-foreach ( $alert in $ADRulesToClose )
+if ( $SCOMCoreReportAlerts.Count -gt 0 )
 	{
-	get-scomalert -name $alert | Resolve-SCOMAlert -Comment "ADCS2012R2 addendum alert rule automation completed"
+	# Debug
+	#$SCOMCoreRules.DisplayName
+	$SCOMCoreRules | Resolve-SCOMAlert -Comment "Closing daily alert flood after report alert generated - ADCS2012R2 Addendum automation DS"
+
+
+	$ADRulesToClose = @()
+
+	$ADRulesToClose +=
+	$ADRulesToClose += "A dll cannot be loaded because the software was incorrectly installed"
+	$ADRulesToClose += "A DNS server used by this server for name resolution*"
+	$ADRulesToClose += "A resource record for the computer name of the DC*"
+	$ADRulesToClose += "A RSoP (Resultant Set of Policies) error occurred"
+	$ADRulesToClose += "A user from a different forest*"
+	$ADRulesToClose += "A well known *"
+	$ADRulesToClose += "Account creation will *"
+	$ADRulesToClose += "Account Name Not Unique"
+	$ADRulesToClose += "Accounts with the same SID*"
+	$ADRulesToClose += "Active Directory Web Services *"
+	$ADRulesToClose += "ADCS*"
+	$ADRulesToClose += "AD Database Size Collection"
+	$ADRulesToClose += "AD Replication Queue"
+	$ADRulesToClose += "An account *"
+	$ADRulesToClose += "An attempt to *"
+	$ADRulesToClose += "Change Password on KRBTGT Account Failed"
+	$ADRulesToClose += "Corrupt Credentials"
+	$ADRulesToClose += "Domain Operation Mode has been changed to Native Mode"
+	$ADRulesToClose += "Duplicate account names were detected - one account has been renamed"
+	$ADRulesToClose += "Duplicate User Principal Names have been detected"
+	$ADRulesToClose += "Free Disk Space * Collection"
+	$ADRulesToClose += "Global Catalog Search Response Time Collection"
+	$ADRulesToClose += "Group policy processing aborted - cannot determine site"
+	$ADRulesToClose += "Invalid Forwarded AS Request"
+	$ADRulesToClose += "Invalid Policy Data"
+	$ADRulesToClose += "Machine account policy failure - *"
+	$ADRulesToClose += "Memory Allocation Error - the system may be overloaded"
+	$ADRulesToClose += "No input provider to sync time"
+	$ADRulesToClose += "One or more of the DC Locator DNS records are not registered in the DNS*"
+	$ADRulesToClose += "PAC Verification Failure"
+	$ADRulesToClose += "Policy Update Failure"
+	$ADRulesToClose += "Setting the administrators password failed.  It has been reset to blank."
+	$ADRulesToClose += "The account identifier pool for this domain controller cannot be updated"
+	$ADRulesToClose += "The computer did not have sufficient rights to perform the secure dynami*"
+	$ADRulesToClose += "The computer name cannot be mapped to an object in Active Directory - *"
+	$ADRulesToClose += "The DC was unable to obtain the next account-identifier"
+	$ADRulesToClose += "The DNS server with which this DC will register does not support the *"
+	$ADRulesToClose += "The domain controller failed to obtain a new account identifier pool"
+	$ADRulesToClose += "The group caching option has now been properly updated"
+	$ADRulesToClose += "The machine account cannot be found"
+	$ADRulesToClose += "The number of Group Policies has exceeded the maximum limit"
+	$ADRulesToClose += "The registry policy file could not be accessed during application *"
+	$ADRulesToClose += "The system clock has not been synchronized for some time"
+	$ADRulesToClose += "This domain controller will not start up because its machine account*"
+	$ADRulesToClose += "Trusted Domain List Update Failure"
+	$ADRulesToClose += "Unexpected SAM Failure"
+	$ADRulesToClose += "Windows cannot determine the *"
+	$ADRulesToClose += "Windows cannot obtain the domain controller name for your computer network."
+	$ADRulesToClose += "Windows is setting a registry value"
+
+	foreach ( $alert in $ADRulesToClose )
+		{
+		get-scomalert -name $alert | Resolve-SCOMAlert -Comment "ADCS2012R2 addendum alert rule automation completed"
+		}
+	# End of rule automation cleanup
 	}
 
-
 # Write event for rule closure
-$momapi.LogScriptEvent($ScriptName,$EventID,0,"`n#Proactive DailyTasks ADCS2012R2 rule reset completed for ($date)")
+$momapi.LogScriptEvent($ScriptName,$EventID,0,"Proactive DailyTasks ADCS2012R2 rule reset completed for ($date)")
 
 
 #=================================================================================
@@ -590,7 +596,7 @@ $momapi.LogScriptEvent($ScriptName,$EventID,0,"`n#Proactive DailyTasks ADCS2012R
 #Log an event for script ending and total execution time.
 $EndTime = Get-Date
 $ScriptTime = ($EndTime - $StartTime).TotalSeconds
-$momapi.LogScriptEvent($ScriptName,$EventID,0,"`n Script Completed. `n Script Runtime: ($ScriptTime) seconds.")
+$momapi.LogScriptEvent($ScriptName,$EventID,0,"Script Completed. `n Script Runtime: ($ScriptTime) seconds.")
 #=================================================================================
 # End of script
                 </ScriptBody>
@@ -631,7 +637,7 @@ $momapi.LogScriptEvent($ScriptName,$EventID,0,"`n Script Completed. `n Script Ru
                 </Scheduler>
               </DataSource>
               <ProbeAction ID="PA" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagTriggerOnlyProbe">
-                <ScriptName>Proactive.DailyTasks.ADCS2012R2Alerts.SummaryReport.Script.Alert.DataSource.v1009.ps1</ScriptName>
+                <ScriptName>Proactive.DailyTasks.ADCS2012R2Alerts.SummaryReport.Script.Alert.DataSource.v1010.ps1</ScriptName>
                 <ScriptBody>
 #=================================================================================
 #  Script to gather ADCS2012R2 alerts and close via on demand task
@@ -645,7 +651,7 @@ $momapi.LogScriptEvent($ScriptName,$EventID,0,"`n Script Completed. `n Script Ru
 #=================================================================================
 # Assign script name variable for use in event logging.
 # ScriptName should be the same as the ID of the module that the script is contained in
-$ScriptName = "Proactive.DailyTasks.ADCS2012R2Alerts.SummaryReport.Script.Alert.DataSource.v1009.ps1"
+$ScriptName = "Proactive.DailyTasks.ADCS2012R2Alerts.SummaryReport.Script.Alert.DataSource.v1010.ps1"
 $EventID = "552"
 #=================================================================================
 
@@ -816,7 +822,7 @@ $momapi.LogScriptEvent($ScriptName,$EventID,0,"Script Completed. `n Script Runti
           <Composite>
             <MemberModules>
               <WriteAction ID="PSWA" TypeID="Windows!Microsoft.Windows.PowerShellWriteAction">
-                <ScriptName>Proactive.DailyTasks.ADCS2012R2Alerts.Close.Script.Alert.WA.v1009.ps1</ScriptName>
+                <ScriptName>Proactive.DailyTasks.ADCS2012R2Alerts.Close.Script.Alert.WA.v1010.ps1</ScriptName>
                 <ScriptBody>
 #=================================================================================
 #  Script to gather ADCS2012R2 alerts and close via on demand task
@@ -830,7 +836,7 @@ $momapi.LogScriptEvent($ScriptName,$EventID,0,"Script Completed. `n Script Runti
 #=================================================================================
 # Assign script name variable for use in event logging.
 # ScriptName should be the same as the ID of the module that the script is contained in
-$ScriptName = "Proactive.DailyTasks.ADCS2012R2Alerts.Close.Script.Alert.WA.v1009.ps1"
+$ScriptName = "Proactive.DailyTasks.ADCS2012R2Alerts.Close.Script.Alert.WA.v1010.ps1"
 $EventID = "551"
 #=================================================================================
 
@@ -1035,74 +1041,80 @@ if ( $SCOMCoreReportAlerts.Count -gt 0 )
 $momapi.LogScriptEvent($ScriptName,$EventID,0,"Proactive DailyTasks ADCS2012R2 monitor reset completed for ($date)")
 
 
-
 # Unhealthy rules
 #
 # (Rules) Alerts to auto close after reset monitor
 # $SCOMCoreRuleAlerts | Resolve-SCOMAlert
-$SCOMCoreRules.DisplayName | Resolve-SCOMAlert -Comment "Closing daily alert flood after report alert generated - ADCS2012R2 Addendum automation DS"
 
-$ADRulesToClose = @()
-
-$ADRulesToClose +=
-$ADRulesToClose += "A dll cannot be loaded because the software was incorrectly installed"
-$ADRulesToClose += "A DNS server used by this server for name resolution*"
-$ADRulesToClose += "A resource record for the computer name of the DC*"
-$ADRulesToClose += "A RSoP (Resultant Set of Policies) error occurred"
-$ADRulesToClose += "A user from a different forest*"
-$ADRulesToClose += "A well known *"
-$ADRulesToClose += "Account creation will *"
-$ADRulesToClose += "Account Name Not Unique"
-$ADRulesToClose += "Accounts with the same SID*"
-$ADRulesToClose += "Active Directory Web Services *"
-$ADRulesToClose += "ADCS2012*"
-$ADRulesToClose += "AD Database Size Collection"
-$ADRulesToClose += "AD Replication Queue"
-$ADRulesToClose += "An account *"
-$ADRulesToClose += "An attempt to *"
-$ADRulesToClose += "Change Password on KRBTGT Account Failed"
-$ADRulesToClose += "Corrupt Credentials"
-$ADRulesToClose += "Domain Operation Mode has been changed to Native Mode"
-$ADRulesToClose += "Duplicate account names were detected - one account has been renamed"
-$ADRulesToClose += "Duplicate User Principal Names have been detected"
-$ADRulesToClose += "Free Disk Space * Collection"
-$ADRulesToClose += "Global Catalog Search Response Time Collection"
-$ADRulesToClose += "Group policy processing aborted - cannot determine site"
-$ADRulesToClose += "Invalid Forwarded AS Request"
-$ADRulesToClose += "Invalid Policy Data"
-$ADRulesToClose += "Machine account policy failure - *"
-$ADRulesToClose += "Memory Allocation Error - the system may be overloaded"
-$ADRulesToClose += "No input provider to sync time"
-$ADRulesToClose += "One or more of the DC Locator DNS records are not registered in the DNS*"
-$ADRulesToClose += "PAC Verification Failure"
-$ADRulesToClose += "Policy Update Failure"
-$ADRulesToClose += "Setting the administrators password failed.  It has been reset to blank."
-$ADRulesToClose += "The account identifier pool for this domain controller cannot be updated"
-$ADRulesToClose += "The computer did not have sufficient rights to perform the secure dynami*"
-$ADRulesToClose += "The computer name cannot be mapped to an object in Active Directory - *"
-$ADRulesToClose += "The DC was unable to obtain the next account-identifier"
-$ADRulesToClose += "The DNS server with which this DC will register does not support the *"
-$ADRulesToClose += "The domain controller failed to obtain a new account identifier pool"
-$ADRulesToClose += "The group caching option has now been properly updated"
-$ADRulesToClose += "The machine account cannot be found"
-$ADRulesToClose += "The number of Group Policies has exceeded the maximum limit"
-$ADRulesToClose += "The registry policy file could not be accessed during application *"
-$ADRulesToClose += "The system clock has not been synchronized for some time"
-$ADRulesToClose += "This domain controller will not start up because its machine account*"
-$ADRulesToClose += "Trusted Domain List Update Failure"
-$ADRulesToClose += "Unexpected SAM Failure"
-$ADRulesToClose += "Windows cannot determine the *"
-$ADRulesToClose += "Windows cannot obtain the domain controller name for your computer network."
-$ADRulesToClose += "Windows is setting a registry value"
-
-foreach ( $alert in $ADRulesToClose )
+if ( $SCOMCoreReportAlerts.Count -gt 0 )
 	{
-	get-scomalert -name $alert | Resolve-SCOMAlert -Comment "ADCS2012R2 addendum alert rule automation completed"
+	# Debug
+	#$SCOMCoreRules.DisplayName
+	$SCOMCoreRules | Resolve-SCOMAlert -Comment "Closing daily alert flood after report alert generated - ADCS2012R2 Addendum automation DS"
+
+
+	$ADRulesToClose = @()
+
+	$ADRulesToClose +=
+	$ADRulesToClose += "A dll cannot be loaded because the software was incorrectly installed"
+	$ADRulesToClose += "A DNS server used by this server for name resolution*"
+	$ADRulesToClose += "A resource record for the computer name of the DC*"
+	$ADRulesToClose += "A RSoP (Resultant Set of Policies) error occurred"
+	$ADRulesToClose += "A user from a different forest*"
+	$ADRulesToClose += "A well known *"
+	$ADRulesToClose += "Account creation will *"
+	$ADRulesToClose += "Account Name Not Unique"
+	$ADRulesToClose += "Accounts with the same SID*"
+	$ADRulesToClose += "Active Directory Web Services *"
+	$ADRulesToClose += "ADCS*"
+	$ADRulesToClose += "AD Database Size Collection"
+	$ADRulesToClose += "AD Replication Queue"
+	$ADRulesToClose += "An account *"
+	$ADRulesToClose += "An attempt to *"
+	$ADRulesToClose += "Change Password on KRBTGT Account Failed"
+	$ADRulesToClose += "Corrupt Credentials"
+	$ADRulesToClose += "Domain Operation Mode has been changed to Native Mode"
+	$ADRulesToClose += "Duplicate account names were detected - one account has been renamed"
+	$ADRulesToClose += "Duplicate User Principal Names have been detected"
+	$ADRulesToClose += "Free Disk Space * Collection"
+	$ADRulesToClose += "Global Catalog Search Response Time Collection"
+	$ADRulesToClose += "Group policy processing aborted - cannot determine site"
+	$ADRulesToClose += "Invalid Forwarded AS Request"
+	$ADRulesToClose += "Invalid Policy Data"
+	$ADRulesToClose += "Machine account policy failure - *"
+	$ADRulesToClose += "Memory Allocation Error - the system may be overloaded"
+	$ADRulesToClose += "No input provider to sync time"
+	$ADRulesToClose += "One or more of the DC Locator DNS records are not registered in the DNS*"
+	$ADRulesToClose += "PAC Verification Failure"
+	$ADRulesToClose += "Policy Update Failure"
+	$ADRulesToClose += "Setting the administrators password failed.  It has been reset to blank."
+	$ADRulesToClose += "The account identifier pool for this domain controller cannot be updated"
+	$ADRulesToClose += "The computer did not have sufficient rights to perform the secure dynami*"
+	$ADRulesToClose += "The computer name cannot be mapped to an object in Active Directory - *"
+	$ADRulesToClose += "The DC was unable to obtain the next account-identifier"
+	$ADRulesToClose += "The DNS server with which this DC will register does not support the *"
+	$ADRulesToClose += "The domain controller failed to obtain a new account identifier pool"
+	$ADRulesToClose += "The group caching option has now been properly updated"
+	$ADRulesToClose += "The machine account cannot be found"
+	$ADRulesToClose += "The number of Group Policies has exceeded the maximum limit"
+	$ADRulesToClose += "The registry policy file could not be accessed during application *"
+	$ADRulesToClose += "The system clock has not been synchronized for some time"
+	$ADRulesToClose += "This domain controller will not start up because its machine account*"
+	$ADRulesToClose += "Trusted Domain List Update Failure"
+	$ADRulesToClose += "Unexpected SAM Failure"
+	$ADRulesToClose += "Windows cannot determine the *"
+	$ADRulesToClose += "Windows cannot obtain the domain controller name for your computer network."
+	$ADRulesToClose += "Windows is setting a registry value"
+
+	foreach ( $alert in $ADRulesToClose )
+		{
+		get-scomalert -name $alert | Resolve-SCOMAlert -Comment "ADCS2012R2 addendum alert rule automation completed"
+		}
+	# End of rule automation cleanup
 	}
 
-
 # Write event for rule closure
-$momapi.LogScriptEvent($ScriptName,$EventID,0,"`n#Proactive DailyTasks ADCS2012R2 rule reset completed for ($date)")
+$momapi.LogScriptEvent($ScriptName,$EventID,0,"Proactive DailyTasks ADCS2012R2 rule reset completed for ($date)")
 
 
 #=================================================================================
@@ -1114,7 +1126,7 @@ $momapi.LogScriptEvent($ScriptName,$EventID,0,"`n#Proactive DailyTasks ADCS2012R
 #Log an event for script ending and total execution time.
 $EndTime = Get-Date
 $ScriptTime = ($EndTime - $StartTime).TotalSeconds
-$momapi.LogScriptEvent($ScriptName,$EventID,0,"`n Script Completed. `n Script Runtime: ($ScriptTime) seconds.")
+$momapi.LogScriptEvent($ScriptName,$EventID,0,"Script Completed. `n Script Runtime: ($ScriptTime) seconds.")
 #=================================================================================
 # End of script
                 </ScriptBody>
@@ -1140,7 +1152,7 @@ $momapi.LogScriptEvent($ScriptName,$EventID,0,"`n Script Completed. `n Script Ru
           <Composite>
             <MemberModules>
               <WriteAction ID="PSWA" TypeID="Windows!Microsoft.Windows.PowerShellWriteAction">
-                <ScriptName>Proactive.DailyTasks.ADCS2012R2Alerts.SummaryReport.Script.Alert.WA.v1009.ps1</ScriptName>
+                <ScriptName>Proactive.DailyTasks.ADCS2012R2Alerts.SummaryReport.Script.Alert.WA.v1010.ps1</ScriptName>
                 <ScriptBody>
 #=================================================================================
 #  Script to gather ADCS2012R2 alerts and close via on demand task
@@ -1154,7 +1166,7 @@ $momapi.LogScriptEvent($ScriptName,$EventID,0,"`n Script Completed. `n Script Ru
 #=================================================================================
 # Assign script name variable for use in event logging.
 # ScriptName should be the same as the ID of the module that the script is contained in
-$ScriptName = "Proactive.DailyTasks.ADCS2012R2Alerts.SummaryReport.Script.Alert.WA.v1009.ps1"
+$ScriptName = "Proactive.DailyTasks.ADCS2012R2Alerts.SummaryReport.Script.Alert.WA.v1010.ps1"
 $EventID = "553"
 #=================================================================================
 
@@ -2476,6 +2488,7 @@ $momapi.LogScriptEvent($ScriptName,$EventID,0,"Script Completed. `n Script Runti
         <DisplayString ElementID="Microsoft.Windows.Active.Directory.Certificate.Services.2012R2.Monitoring.Addendum">
           <Name>Microsoft Windows Active Directory Certificate Services 2012R2 Monitoring Addendum</Name>
           <Description> 
+v1.0.1.0  10 Jan 2024 - Updated close DS/WA for closure logic
 v1.0.0.9   4 Jan 2024 - Resolution State logic improvements for large environments
 v1.0.0.8  27 Dec 2023 - Whitespace audit, added age to monitor reset logic
 v1.0.0.7  12 Dec 2023 - Updated reset logic to use Management Pack, removed ID property from reset logic
